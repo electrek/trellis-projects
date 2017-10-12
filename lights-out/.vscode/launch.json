@@ -6,7 +6,7 @@
             "request": "launch",
             "cwd": "${workspaceRoot}",
             "name": "PlatformIO Debugger",
-            "target": "c:/Users/elect/Documents/PlatformIO/Projects/171012-171817-nanoatmega328/.pioenvs/nanoatmega328/firmware.elf",
+            "target": "c:/Users/elect/Documents/PlatformIO/Projects/trellis-projects/lights-out/.pioenvs/nanoatmega328/firmware.elf",
             "gdbpath": "C:/Users/elect/.platformio/penv/Scripts/piodebuggdb",
             "autorun": [ "source .pioinit" ]
         }
