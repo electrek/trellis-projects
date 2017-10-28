@@ -18,7 +18,7 @@
 #include <Wire.h>
 #include "Adafruit_Trellis.h"
 
-#define DEBUG
+//#define DEBUG
 
 /*************************************************** 
   This example shows reading buttons and setting/clearing buttons in a loop
@@ -62,7 +62,7 @@ Adafruit_TrellisSet trellis =  Adafruit_TrellisSet(&matrix0, &matrix1);
 #define INTPIN A2
 // Connect I2C SDA pin to your Arduino SDA line
 // Connect I2C SCL pin to your Arduino SCL line
-// All Trellises share the SDA, SCL and INT pin! 
+// All Trellises share the SDA, SCL and INT pins! 
 // Even 8 tiles use only 3 wires max
 
 byte mask[10][28] ={{1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1},   // zero
@@ -77,6 +77,8 @@ byte mask[10][28] ={{1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1,
 					{1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1}};   // nine
 				
 byte current[NROWS*NCOLS];
+#define NUM_START_POINTS 5
+byte startingPoint[] = {0,14,16,27,30,24,8};
 	
 int buttonPressed = -1;
 int matrix[NROWS][NCOLS];
@@ -122,7 +124,8 @@ for (int i=0; i<NROWS; i++)
   }
   
 	randomSeed(analogRead(0));
-	randomizeStart(5);
+//	randomizeStart(5);   	// rendomize starting point
+	setStart(NUM_START_POINTS);  			// use preset starting point
    trellis.writeDisplay();
 }
 
@@ -141,10 +144,19 @@ void loop()
 		if(done)
 		{
 			Serial.println("done!");
+			flash();
+			reverseFlash();
+			flash();
+			reverseFlash();
+			flash();
+			reverseFlash();
+			delay(1000);
+			done = false;
+			k = 0;
 			setup();
 		}
 	}
-	checkReset();
+	//checkReset();
 }
 
 void lineFill()
@@ -345,6 +357,16 @@ void randomizeStart(int numPoints)
 	for (int i=0; i<numPoints; i++)
 	{
 		setLEDs(random(numKeys));
+		delay(50);
+	}
+}
+
+void setStart(int numPoints)
+{
+	for (int i=0; i<numPoints; i++)
+	{
+		setLEDs(startingPoint[i]);
+		delay(50);
 	}
 }
 
